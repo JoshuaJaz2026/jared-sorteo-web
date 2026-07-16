@@ -1,0 +1,85 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>¡Paso Final! | Electrodomésticos Jared</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,400;0,700;0,900;1,800&family=Poppins:wght@400;500;600;700&display=swap');
+        
+        .font-impact { font-family: 'Montserrat', sans-serif; }
+        .font-body { font-family: 'Poppins', sans-serif; }
+
+        .bg-jared-purple { background-color: #5c0b5f; }
+        .text-jared-purple { color: #5c0b5f; }
+        .bg-jared-red { background-color: #e60000; }
+        .text-jared-red { color: #e60000; }
+
+        @keyframes fade-in-up {
+            0% { opacity: 0; transform: translateY(20px); }
+            100% { opacity: 1; transform: translateY(0); }
+        }
+        .animate-fade-in-up {
+            animation: fade-in-up 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+        }
+        .delay-100 { animation-delay: 100ms; }
+        .delay-200 { animation-delay: 200ms; }
+        .delay-300 { animation-delay: 300ms; }
+        .delay-400 { animation-delay: 400ms; }
+    </style>
+</head>
+<body class="bg-purple-50 font-body text-gray-800 antialiased relative min-h-screen w-full grid place-items-center p-4 sm:p-8 overflow-hidden">
+
+    <div class="fixed inset-0 pointer-events-none z-0">
+        <div class="absolute top-[-10%] left-[-10%] w-[500px] h-[500px] bg-jared-purple opacity-20 rounded-full blur-[100px]"></div>
+        <div class="absolute bottom-[-10%] right-[-10%] w-[400px] h-[400px] bg-jared-red opacity-10 rounded-full blur-[80px]"></div>
+    </div>
+
+    <div class="relative z-10 max-w-md w-full mx-auto bg-white rounded-3xl shadow-2xl p-8 sm:p-10 text-center animate-fade-in-up opacity-0 border-t-8 border-jared-purple pt-12">
+        
+        <div class="absolute top-5 left-5 animate-fade-in-up opacity-0 delay-100">
+            <a href="{% url 'landing_sorteo' %}" class="flex items-center text-gray-400 hover:text-jared-purple transition-colors duration-300">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M10 19l-7-7m0 0l7-7m-7 7h18" />
+                </svg>
+                <span class="ml-1 text-xs font-bold uppercase tracking-wider">Volver</span>
+            </a>
+        </div>
+
+        <div class="w-16 h-16 mx-auto bg-green-100 rounded-full flex items-center justify-center mb-5 animate-fade-in-up opacity-0 delay-100 shadow-inner mt-2">
+            <svg class="w-8 h-8 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"></path>
+            </svg>
+        </div>
+
+        <h1 class="text-4xl font-impact font-black text-gray-900 tracking-tight leading-none mb-3 animate-fade-in-up opacity-0 delay-200">
+            ¡CASI <span class="text-jared-red italic font-extrabold text-5xl">LISTO!</span>
+        </h1>
+        
+        <p class="text-gray-600 text-sm mb-6 animate-fade-in-up opacity-0 delay-300 font-medium">
+            Tus datos están guardados de forma segura. Para activar tu boleto, realiza el Yape de <strong class="text-gray-900 text-base">S/ 10.00</strong> escaneando este código:
+        </p>
+
+        <div class="bg-gray-50 p-4 rounded-2xl border border-gray-200 inline-block mb-6 animate-fade-in-up opacity-0 delay-300 shadow-sm">
+            <img src="{% static 'img/qr-yape.png' %}" alt="QR Yape Jared" class="w-48 h-48 mx-auto rounded-xl shadow-sm border border-gray-100 object-cover">
+            <p class="text-[10px] text-gray-400 mt-3 font-bold tracking-widest uppercase">Escanear para pagar</p>
+        </div>
+
+        <p class="text-xs text-gray-500 mb-6 animate-fade-in-up opacity-0 delay-400">
+            Una vez hecho el pago, envía la captura a nuestra contadora para validarte al instante en el sistema.
+        </p>
+
+        <a href="https://wa.me/51986305990?text=Hola,%20acabo%20de%20registrarme%20para%20el%20sorteo.%20Mi%20DNI%20es%20{{ dni }}%20y%20aquí%20adjunto%20mi%20voucher%20de%20Yape." 
+           target="_blank" 
+           class="w-full flex justify-center items-center py-3.5 px-4 rounded-xl text-sm font-body font-bold text-white bg-[#25D366] hover:bg-[#20bd5c] hover:-translate-y-1 focus:outline-none focus:ring-4 focus:ring-[#25D366]/30 transition-all duration-300 shadow-lg shadow-[#25D366]/30 active:scale-95 animate-fade-in-up opacity-0 delay-400 gap-2.5">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="currentColor" viewBox="0 0 24 24">
+                <path d="M12.031 0C5.385 0 .002 5.388.002 12.035c0 2.122.553 4.193 1.602 6.01L0 24l6.115-1.604c1.761.942 3.753 1.442 5.914 1.442 6.643 0 12.027-5.389 12.027-12.036S18.675 0 12.031 0zm-1.025 18.258c-1.393-.162-2.825-.56-4.043-1.127l-.29-.136-3.003.788.798-2.928-.148-.306C3.045 13.064 2.457 11.2 2.457 9.256c0-4.664 3.791-8.455 8.455-8.455 4.664 0 8.455 3.791 8.455 8.455 0 4.665-3.79 8.456-8.455 8.456-.296 0-.594-.015-.886-.044zM16.712 13.916c-.258-.129-1.526-.752-1.762-.838-.236-.086-.408-.129-.58.129-.172.258-.666.838-.816 1.01-.15.172-.3.193-.558.064-.258-.129-1.088-.401-2.072-1.287-.766-.69-1.282-1.543-1.432-1.801-.15-.258-.016-.398.113-.526.116-.115.258-.301.387-.451.129-.15.172-.258.258-.43.086-.172.043-.322-.021-.451-.064-.129-.58-1.397-.795-1.913-.21-.504-.422-.435-.58-.443-.15-.008-.322-.008-.494-.008-.172 0-.451.064-.687.322-.236.258-.902.881-.902 2.149s.924 2.492 1.053 2.664c.129.172 1.815 2.769 4.397 3.882.616.265 1.097.424 1.472.543.619.197 1.182.169 1.626.103.5-.075 1.526-.623 1.741-1.225.215-.602.215-1.117.15-1.225-.064-.108-.236-.172-.494-.301z"/>
+            </svg>
+            ENVIAR VOUCHER
+        </a>
+    </div>
+
+</body>
+</html>
