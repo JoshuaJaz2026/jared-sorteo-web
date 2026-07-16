@@ -30,7 +30,7 @@ SECRET_KEY = 'django-insecure-o0q+jlx75#yz%@e-5&d_xcd&0-b3%wnc5y^8k1w(xmkdha^__l
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
 
 
 # Application definition
@@ -48,6 +48,7 @@ INSTALLED_APPS = [
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
+    'whitenoise.middleware.WhiteNoiseMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
@@ -127,3 +128,6 @@ STATIC_URL = 'static/'
 STATICFILES_DIRS = [
     BASE_DIR / "static",
 ]
+
+# MAGIA PARA RENDER: La "maleta" donde se guardarán todos los estáticos en producción
+STATIC_ROOT = BASE_DIR / 'staticfiles'
