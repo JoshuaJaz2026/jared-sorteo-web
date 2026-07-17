@@ -131,3 +131,39 @@ STATICFILES_DIRS = [
 
 # MAGIA PARA RENDER: La "maleta" donde se guardarán todos los estáticos en producción
 STATIC_ROOT = BASE_DIR / 'staticfiles'
+
+
+# ==========================================
+# 🎨 CONFIGURACIÓN DE DISEÑO (JAZZMIN)
+# ==========================================
+JAZZMIN_SETTINGS = {
+    # Títulos en la pestaña del navegador y login
+    "site_title": "Admin Sorteo Jared",
+    "site_header": "Sorteo Jared",
+    
+    # Título principal en el menú lateral
+    "site_brand": "Sorteos Jared",
+    
+    # Mensaje de bienvenida en la pantalla de inicio de sesión
+    "welcome_sign": "Centro de Comando - Electrodomésticos Jared",
+    
+    # Texto de derechos de autor en el pie de página
+    "copyright": "Electrodomésticos Jared",
+    
+    # Oculta el panel de ajustes visuales lateral para mantenerlo limpio
+    "show_ui_builder": False,
+}
+
+JAZZMIN_UI_TWEAKS = {
+    # Colores corporativos (Inspirados en tu Landing Page)
+    "theme": "pulse",  # Tema moderno con toques morados
+    "navbar": "navbar-dark", # Barra superior oscura
+    "sidebar": "sidebar-dark-purple", # Menú lateral morado oscuro
+    "brand_colour": "navbar-danger", # Título superior con fondo rojo
+    "accent": "accent-primary",
+    "button_classes": {
+        "primary": "btn-primary",
+        "success": "btn-success",
+        "danger": "btn-danger",
+    }
+}

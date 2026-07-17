@@ -10,15 +10,32 @@ class ParticipanteAdmin(admin.ModelAdmin):
     # Columnas que ves en la tabla
     list_display = ('nombre_completo', 'dni', 'celular', 'participando', 'fecha_registro')
     
+    # Interruptor editable desde la tabla
+    list_editable = ('participando',)
+    
     # Filtros laterales
     list_filter = ('participando', 'fecha_registro')
     
     # Buscador superior
     search_fields = ('nombre_completo', 'dni', 'celular')
     
-    # ¡AQUÍ REGISTRAMOS NUESTRAS 2 ACCIONES MÁGICAS!
-    actions = ['elegir_ganador', 'exportar_a_csv']
+    # ¡NUEVO! Ordenamiento inteligente: Los más recientes siempre arriba
+    ordering = ('-fecha_registro',)
+    
+    # Acciones Mágicas
+    actions = ['marcar_como_validados', 'elegir_ganador', 'exportar_a_csv']
 
+    # --- FUNCIÓN: VALIDACIÓN MASIVA ---
+    @admin.action(description='✅ Marcar seleccionados como Validados (Participando)')
+    def marcar_como_validados(self, request, queryset):
+        actualizados = queryset.update(participando=True)
+        self.message_user(
+            request, 
+            f"¡Éxito! Se han validado {actualizados} participantes correctamente.", 
+            level=messages.SUCCESS
+        )
+
+    # --- FUNCIÓN: ELEGIR GANADOR ---
     @admin.action(description='🎁 Elegir un ganador al azar (Solo Validados)')
     def elegir_ganador(self, request, queryset):
         candidatos = Participante.objects.filter(participando=True)
@@ -35,19 +52,15 @@ class ParticipanteAdmin(admin.ModelAdmin):
         mensaje_triunfal = f"🎉 ¡TENEMOS GANADOR! 🎉 El afortunado es {ganador.nombre_completo} (DNI: {ganador.dni}) - Llámalo ya al {ganador.celular}"
         self.message_user(request, mensaje_triunfal, level=messages.SUCCESS)
 
+    # --- FUNCIÓN: EXPORTAR A EXCEL ---
     @admin.action(description='📊 Descargar base de datos (Excel/CSV)')
     def exportar_a_csv(self, request, queryset):
-        # 1. Preparamos el archivo descargable
         response = HttpResponse(content_type='text/csv')
         response['Content-Disposition'] = 'attachment; filename="participantes_jared.csv"'
         
-        # 2. Creamos el "escritor" del archivo
         writer = csv.writer(response)
-        
-        # 3. Escribimos la primera fila (Los títulos de las columnas)
         writer.writerow(['Nombre Completo', 'DNI', 'Celular', 'Validado (Participando)', 'Fecha de Registro'])
         
-        # 4. Escribimos los datos de cada cliente seleccionado
         for participante in queryset:
             writer.writerow([
                 participante.nombre_completo,
