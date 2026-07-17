@@ -69,6 +69,7 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+                'sorteo.context_processors.metricas_sorteo', # <-- ¡AQUÍ ESTÁ LA NUEVA LÍNEA!
             ],
         },
     },

@@ -1,0 +1,48 @@
+{% extends "admin/index.html" %}
+
+{% block content %}
+<!-- 💰 NUESTRO DASHBOARD FINANCIERO -->
+<div class="row mb-4">
+    <!-- 1. Tarjeta de Dinero Recaudado -->
+    <div class="col-lg-4 col-6">
+        <div class="small-box bg-success">
+            <div class="inner">
+                <h3>S/ {{ dash_recaudado }}.00</h3>
+                <p>Dinero Recaudado</p>
+            </div>
+            <div class="icon">
+                <i class="fas fa-money-bill-wave"></i>
+            </div>
+        </div>
+    </div>
+
+    <!-- 2. Tarjeta de Validados -->
+    <div class="col-lg-4 col-6">
+        <div class="small-box bg-info">
+            <div class="inner">
+                <h3>{{ dash_validados }}</h3>
+                <p>Participantes Validados</p>
+            </div>
+            <div class="icon">
+                <i class="fas fa-user-check"></i>
+            </div>
+        </div>
+    </div>
+
+    <!-- 3. Tarjeta de Pendientes -->
+    <div class="col-lg-4 col-6">
+        <div class="small-box bg-danger">
+            <div class="inner">
+                <h3>{{ dash_pendientes }}</h3>
+                <p>Faltan Validar Pago</p>
+            </div>
+            <div class="icon">
+                <i class="fas fa-clock"></i>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Mostramos el resto del panel normal abajo -->
+{{ block.super }}
+{% endblock %}
