@@ -24,6 +24,11 @@ class ParticipanteAdmin(admin.ModelAdmin):
     # Ordenamiento inteligente: Los más recientes siempre arriba
     ordering = ('-fecha_registro',)
     
+    # ==========================================
+    # 📅 NUEVO: LÍNEA DE TIEMPO INTERACTIVA
+    # ==========================================
+    date_hierarchy = 'fecha_registro'
+    
     # Acciones Mágicas
     actions = ['marcar_como_validados', 'elegir_ganador', 'exportar_a_csv', 'eliminar_participantes']
 
@@ -36,19 +41,14 @@ class ParticipanteAdmin(admin.ModelAdmin):
         return ('fecha_registro',)
 
     # ==========================================
-    # 💰 NUEVO: MÉTRICA DE DINERO RECAUDADO
+    # 💰 TABLERO FINANCIERO (Alerta Superior)
     # ==========================================
     def changelist_view(self, request, extra_context=None):
-        # 1. Contamos cuántos clientes tienen el check verde de pagado
         validados = Participante.objects.filter(participando=True).count()
-        
-        # 2. Multiplicamos por S/ 10.00 (el precio del boleto)
         total_recaudado = validados * 10
         
-        # 3. Mostramos el mensaje solo si hay al menos una venta
         if validados > 0:
             mensaje = f"💰 TABLERO FINANCIERO: Tienes {validados} boletos validados. Total recaudado en este sorteo: S/ {total_recaudado}.00"
-            # Usamos un truco para evitar que el mensaje se repita al recargar
             storage = messages.get_messages(request)
             storage.used = True
             messages.info(request, mensaje)

@@ -43,6 +43,29 @@
     </div>
 </div>
 
+<!-- 🎯 NUEVO: BARRA DE PROGRESO DE LA META -->
+<div class="card mb-4" style="border-radius: 15px; box-shadow: 0 4px 6px rgba(0,0,0,0.1); border: none;">
+    <div class="card-body" style="padding: 25px;">
+        <h5 class="card-title font-weight-bold mb-1" style="color: #4a5568;">
+            <i class="fas fa-bullseye text-danger"></i> Meta del Sorteo: {{ meta_boletos }} Boletos 
+        </h5>
+        
+        {% if faltan_boletos > 0 %}
+            <p class="card-text text-muted mb-3">Llevas <strong>{{ dash_validados }}</strong> validados. ¡Te faltan <strong>{{ faltan_boletos }}</strong> boletos para llegar al objetivo!</p>
+        {% else %}
+            <p class="card-text text-success font-weight-bold mb-3">¡Felicidades! Has superado la meta de boletos vendidos para este sorteo. 🚀</p>
+        {% endif %}
+
+        <div class="progress" style="height: 25px; border-radius: 15px; background-color: #e2e8f0; box-shadow: inset 0 1px 2px rgba(0,0,0,.1);">
+            <div class="progress-bar bg-success progress-bar-striped progress-bar-animated" role="progressbar" 
+                 style="width: {{ porcentaje_visual }}%; font-weight: bold; font-size: 14px;" 
+                 aria-valuenow="{{ porcentaje_visual }}" aria-valuemin="0" aria-valuemax="100">
+                {{ porcentaje_meta }}%
+            </div>
+        </div>
+    </div>
+</div>
+
 <!-- Mostramos el resto del panel normal abajo -->
 {{ block.super }}
 {% endblock %}

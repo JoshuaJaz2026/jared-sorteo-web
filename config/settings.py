@@ -154,6 +154,15 @@ JAZZMIN_SETTINGS = {
     
     # Oculta el panel de ajustes visuales lateral para mantenerlo limpio
     "show_ui_builder": False,
+
+    # 🔗 NUEVO: BOTÓN DE ACCESO DIRECTO AL SITIO WEB PÚBLICO
+    "topmenu_links": [
+        # Este botón te lleva al Dashboard principal del panel
+        {"name": "Panel Principal",  "url": "admin:index", "permissions": ["auth.view_user"]},
+        
+        # Este es nuestro nuevo botón mágico que abre tu web en otra pestaña
+        {"name": "👁️ Ver Sitio Web", "url": "/", "new_window": True},
+    ],
 }
 
 JAZZMIN_UI_TWEAKS = {
