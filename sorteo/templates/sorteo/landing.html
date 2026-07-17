@@ -4,6 +4,16 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Sorteo Fiestas Patrias | Electrodomésticos Jared</title>
+    
+    <!-- INICIO: Metadatos Open Graph (Para WhatsApp, Facebook, Instagram) -->
+    <meta property="og:title" content="¡Gran Sorteo de Fiestas Patrias | Electrodomésticos Jared!">
+    <meta property="og:description" content="Celebra el orgullo de ser peruano. Registra tus datos, adquiere tu boleto a S/ 10.00 y participa por increíbles premios con Jared.">
+    <!-- Debes asegurarte de guardar tu imagen en: static/img/banner-social.jpg -->
+    <meta property="og:image" content="https://jared-sorteo-web.onrender.com/static/img/banner-social.jpg">
+    <meta property="og:url" content="https://jared-sorteo-web.onrender.com/">
+    <meta property="og:type" content="website">
+    <!-- FIN: Metadatos Open Graph -->
+
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,400;0,700;0,900;1,800&family=Poppins:wght@400;500;600;700&display=swap');
@@ -26,10 +36,12 @@
         .delay-100 { animation-delay: 100ms; }
         .delay-200 { animation-delay: 200ms; }
         .delay-300 { animation-delay: 300ms; }
+        .delay-400 { animation-delay: 400ms; }
     </style>
 </head>
-<body class="bg-purple-50 font-body text-gray-800 antialiased">
+<body class="bg-purple-50 font-body text-gray-800 antialiased overflow-x-hidden">
 
+    <!-- Modal Emergente de DNI Duplicado -->
     {% if error %}
     <div id="error-modal" class="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-sm animate-fade-in-up">
         <div class="bg-white rounded-3xl p-8 max-w-sm w-full mx-4 shadow-2xl text-center border-t-8 border-jared-red">
@@ -47,16 +59,19 @@
     </div>
     {% endif %}
 
-    <div class="relative min-h-screen w-full grid place-items-center p-4 sm:p-8">
+    <!-- Contenedor Maestro centrado -->
+    <div class="relative min-h-screen w-full flex items-center justify-center p-4 sm:p-8">
         
-        <div class="fixed inset-0 overflow-hidden pointer-events-none z-0">
+        <!-- Elementos decorativos contenidos -->
+        <div class="fixed inset-0 pointer-events-none z-0 overflow-hidden">
             <div class="absolute top-[-10%] left-[-10%] w-[500px] h-[500px] bg-jared-purple opacity-20 rounded-full blur-[100px]"></div>
             <div class="absolute bottom-[-10%] right-[-10%] w-[400px] h-[400px] bg-jared-red opacity-10 rounded-full blur-[80px]"></div>
         </div>
 
-        <div class="relative z-10 max-w-md w-full mx-auto bg-white rounded-3xl shadow-2xl p-8 sm:p-10 animate-fade-in-up opacity-0 border-t-8 border-jared-purple">
+        <!-- Tarjeta Principal -->
+        <div class="relative z-10 max-w-md w-full bg-white rounded-3xl shadow-2xl p-8 sm:p-10 animate-fade-in-up opacity-0 border-t-8 border-jared-purple">
             
-            <div class="text-center mb-8">
+            <div class="text-center mb-6">
                 <span class="inline-block py-1.5 px-4 rounded-full bg-jared-purple text-white text-[11px] font-bold tracking-widest mb-3 uppercase shadow-md animate-fade-in-up opacity-0 delay-100">
                     Electrodomésticos Jared
                 </span>
@@ -68,7 +83,34 @@
                 </p>
             </div>
 
-            <form method="POST" action="{% url 'landing_sorteo' %}" class="space-y-5 animate-fade-in-up opacity-0 delay-300">
+            <!-- RELOJ DE CUENTA REGRESIVA -->
+            <div class="mb-6 bg-gray-50 rounded-2xl p-4 border border-gray-200 shadow-inner text-center animate-fade-in-up opacity-0 delay-300">
+                <p class="text-[10px] font-bold text-gray-500 uppercase tracking-widest mb-3">El sorteo se realiza en:</p>
+                <div class="flex justify-center items-center gap-2 sm:gap-3" id="countdown-timer">
+                    <div class="flex flex-col items-center">
+                        <div class="w-12 h-12 bg-white border-2 border-jared-purple text-jared-purple font-impact font-bold text-2xl rounded-xl flex items-center justify-center shadow-sm" id="cd-days">00</div>
+                        <span class="text-[9px] font-bold text-gray-400 uppercase mt-1">Días</span>
+                    </div>
+                    <div class="text-gray-300 font-impact text-2xl font-bold mb-4">:</div>
+                    <div class="flex flex-col items-center">
+                        <div class="w-12 h-12 bg-white border-2 border-jared-purple text-jared-purple font-impact font-bold text-2xl rounded-xl flex items-center justify-center shadow-sm" id="cd-hours">00</div>
+                        <span class="text-[9px] font-bold text-gray-400 uppercase mt-1">Hrs</span>
+                    </div>
+                    <div class="text-gray-300 font-impact text-2xl font-bold mb-4">:</div>
+                    <div class="flex flex-col items-center">
+                        <div class="w-12 h-12 bg-jared-red text-white font-impact font-bold text-2xl rounded-xl flex items-center justify-center shadow-md" id="cd-minutes">00</div>
+                        <span class="text-[9px] font-bold text-jared-red uppercase mt-1">Min</span>
+                    </div>
+                    <div class="text-gray-300 font-impact text-2xl font-bold mb-4">:</div>
+                    <div class="flex flex-col items-center">
+                        <div class="w-12 h-12 bg-jared-red text-white font-impact font-bold text-2xl rounded-xl flex items-center justify-center shadow-md" id="cd-seconds">00</div>
+                        <span class="text-[9px] font-bold text-jared-red uppercase mt-1">Seg</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Formulario Inteligente -->
+            <form method="POST" action="{% url 'landing_sorteo' %}" class="space-y-5 animate-fade-in-up opacity-0 delay-400">
                 {% csrf_token %}
 
                 <div class="group">
@@ -110,6 +152,19 @@
                            placeholder="usuario@gmail.com">
                 </div>
 
+                <!-- NUEVO: Casilla de Términos y Condiciones -->
+                <div class="flex items-start gap-3 mt-2 pt-1">
+                    <div class="flex items-center h-5">
+                        <input id="terminos" name="terminos" type="checkbox" required 
+                               class="w-4 h-4 text-jared-purple bg-gray-50 border-gray-300 rounded focus:ring-jared-purple focus:ring-2 transition-all cursor-pointer">
+                    </div>
+                    <div class="text-xs text-gray-500 leading-tight">
+                        <label for="terminos" class="font-medium cursor-pointer">
+                            He leído y acepto los <span class="text-jared-purple font-bold hover:underline">Términos y Condiciones</span> del sorteo, y confirmo ser mayor de 18 años.
+                        </label>
+                    </div>
+                </div>
+
                 <button type="submit" class="w-full mt-6 py-4 px-4 rounded-full text-base font-impact font-bold text-white bg-jared-red hover:bg-red-700 hover:-translate-y-1 focus:outline-none focus:ring-4 focus:ring-red-500/30 transition-all duration-300 shadow-[0_10px_20px_rgba(230,0,0,0.3)] hover:shadow-[0_15px_25px_rgba(230,0,0,0.4)] active:scale-95 flex items-center justify-center gap-2">
                     ¡QUIERO PARTICIPAR!
                     <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 bg-white text-jared-red rounded-full p-0.5" viewBox="0 0 20 20" fill="currentColor">
@@ -120,5 +175,33 @@
         </div>
     </div>
 
+    <!-- Script del Temporizador -->
+    <script>
+        // Fecha y hora del gran sorteo (28 de Julio 2026 a la Medianoche)
+        const countDownDate = new Date("Jul 28, 2026 00:00:00").getTime();
+
+        const countdownInterval = setInterval(function() {
+            const now = new Date().getTime();
+            const distance = countDownDate - now;
+
+            // Cálculos matemáticos de tiempo
+            const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+            const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+            const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+            // Inyectar resultados al HTML asegurando formato 00
+            document.getElementById("cd-days").innerHTML = days < 10 ? "0" + days : days;
+            document.getElementById("cd-hours").innerHTML = hours < 10 ? "0" + hours : hours;
+            document.getElementById("cd-minutes").innerHTML = minutes < 10 ? "0" + minutes : minutes;
+            document.getElementById("cd-seconds").innerHTML = seconds < 10 ? "0" + seconds : seconds;
+
+            // Si la fecha ya pasó
+            if (distance < 0) {
+                clearInterval(countdownInterval);
+                document.getElementById("countdown-timer").innerHTML = "<div class='text-jared-red font-impact text-2xl uppercase tracking-wider py-4'>¡El Sorteo ha Comenzado!</div>";
+            }
+        }, 1000);
+    </script>
 </body>
 </html>
