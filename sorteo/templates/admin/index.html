@@ -1,43 +1,43 @@
 {% extends "admin/index.html" %}
 
 {% block content %}
-<!-- 💰 NUESTRO DASHBOARD FINANCIERO -->
-<div class="row mb-4">
-    <!-- 1. Tarjeta de Dinero Recaudado -->
-    <div class="col-lg-4 col-6">
-        <div class="small-box bg-success">
-            <div class="inner">
-                <h3>S/ {{ dash_recaudado }}.00</h3>
-                <p>Dinero Recaudado</p>
+<!-- 💰 NUESTRO DASHBOARD FINANCIERO PREMIUM -->
+<div class="row mb-4 mt-3">
+    <!-- 1. Tarjeta de Dinero Recaudado (Verde) -->
+    <div class="col-lg-4 col-12">
+        <div class="small-box bg-success" style="border-radius: 15px; box-shadow: 0 4px 6px rgba(0,0,0,0.1); overflow: hidden;">
+            <div class="inner" style="padding: 20px; position: relative; z-index: 2;">
+                <h3 style="font-size: 2.5rem; font-weight: bold;">S/ {{ dash_recaudado }}.00</h3>
+                <p style="font-size: 1.2rem; margin-bottom: 0;">Dinero Recaudado</p>
             </div>
-            <div class="icon">
-                <i class="fas fa-money-bill-wave"></i>
-            </div>
-        </div>
-    </div>
-
-    <!-- 2. Tarjeta de Validados -->
-    <div class="col-lg-4 col-6">
-        <div class="small-box bg-info">
-            <div class="inner">
-                <h3>{{ dash_validados }}</h3>
-                <p>Participantes Validados</p>
-            </div>
-            <div class="icon">
-                <i class="fas fa-user-check"></i>
+            <div class="icon" style="position: absolute; right: 20px; top: 10px; z-index: 1;">
+                <i class="fas fa-money-bill-wave" style="font-size: 70px; color: rgba(0,0,0,0.15);"></i>
             </div>
         </div>
     </div>
 
-    <!-- 3. Tarjeta de Pendientes -->
-    <div class="col-lg-4 col-6">
-        <div class="small-box bg-danger">
-            <div class="inner">
-                <h3>{{ dash_pendientes }}</h3>
-                <p>Faltan Validar Pago</p>
+    <!-- 2. Tarjeta de Validados (Azul) -->
+    <div class="col-lg-4 col-12">
+        <div class="small-box bg-info" style="border-radius: 15px; box-shadow: 0 4px 6px rgba(0,0,0,0.1); overflow: hidden;">
+            <div class="inner" style="padding: 20px; position: relative; z-index: 2;">
+                <h3 style="font-size: 2.5rem; font-weight: bold;">{{ dash_validados }}</h3>
+                <p style="font-size: 1.2rem; margin-bottom: 0;">Participantes Validados</p>
             </div>
-            <div class="icon">
-                <i class="fas fa-clock"></i>
+            <div class="icon" style="position: absolute; right: 20px; top: 10px; z-index: 1;">
+                <i class="fas fa-user-check" style="font-size: 70px; color: rgba(0,0,0,0.15);"></i>
+            </div>
+        </div>
+    </div>
+
+    <!-- 3. Tarjeta de Pendientes (Roja) -->
+    <div class="col-lg-4 col-12">
+        <div class="small-box bg-danger" style="border-radius: 15px; box-shadow: 0 4px 6px rgba(0,0,0,0.1); overflow: hidden;">
+            <div class="inner" style="padding: 20px; position: relative; z-index: 2;">
+                <h3 style="font-size: 2.5rem; font-weight: bold;">S/ {{ dash_dinero_pendiente }}.00</h3>
+                <p style="font-size: 1.2rem; margin-bottom: 0;">En espera ({{ dash_pendientes }} personas)</p>
+            </div>
+            <div class="icon" style="position: absolute; right: 20px; top: 10px; z-index: 1;">
+                <i class="fas fa-hand-holding-usd" style="font-size: 70px; color: rgba(0,0,0,0.15);"></i>
             </div>
         </div>
     </div>
