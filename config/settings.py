@@ -62,14 +62,15 @@ ROOT_URLCONF = 'config.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        # 👇 MAGIA: Le decimos a Django que lea tu carpeta de plantillas primero 👇
+        'DIRS': [BASE_DIR / 'sorteo' / 'templates'], 
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
-                'sorteo.context_processors.metricas_sorteo', # <-- ¡AQUÍ ESTÁ LA NUEVA LÍNEA!
+                'sorteo.context_processors.metricas_sorteo', # <-- CONEXIÓN CON EL CEREBRO
             ],
         },
     },
