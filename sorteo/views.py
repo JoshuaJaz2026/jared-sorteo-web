@@ -1,5 +1,6 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.db import IntegrityError
+from django.contrib.auth import logout
 from .models import Participante
 
 def landing_sorteo(request):
@@ -47,3 +48,8 @@ def ver_boleto(request, participante_id):
     
     # Renderizamos el diseño del ticket enviando los datos
     return render(request, 'sorteo/boleto.html', {'p': participante})
+
+# 🚪 NUEVO: Función para cerrar sesión a la fuerza
+def salir_sistema(request):
+    logout(request)
+    return redirect('/admin/') # Lo devuelve a la pantalla de login

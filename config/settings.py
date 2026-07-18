@@ -123,7 +123,7 @@ JAZZMIN_SETTINGS = {
     "custom_links": {
         "sorteo": [{
             "name": "🚪 Cerrar Sesión", 
-            "url": "admin:logout", 
+            "url": "salir_sistema", # <-- RUTA ACTUALIZADA
             "icon": "fas fa-sign-out-alt",
         }]
     },
