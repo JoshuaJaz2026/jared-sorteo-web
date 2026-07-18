@@ -4,7 +4,7 @@
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
 <div class="row mb-4 mt-3">
-    <div class="col-lg-4 col-12">
+    <div class="col-lg-4 col-12 mb-3">
         <div class="small-box bg-success" style="border-radius: 15px; box-shadow: 0 4px 6px rgba(0,0,0,0.1); overflow: hidden;">
             <div class="inner" style="padding: 20px; position: relative; z-index: 2;">
                 <h3 style="font-size: 2.5rem; font-weight: bold;">S/ {{ dash_recaudado }}.00</h3>
@@ -16,7 +16,7 @@
         </div>
     </div>
 
-    <div class="col-lg-4 col-12">
+    <div class="col-lg-4 col-12 mb-3">
         <div class="small-box bg-info" style="border-radius: 15px; box-shadow: 0 4px 6px rgba(0,0,0,0.1); overflow: hidden;">
             <div class="inner" style="padding: 20px; position: relative; z-index: 2;">
                 <h3 style="font-size: 2.5rem; font-weight: bold;">{{ dash_validados }}</h3>
@@ -28,7 +28,7 @@
         </div>
     </div>
 
-    <div class="col-lg-4 col-12">
+    <div class="col-lg-4 col-12 mb-3">
         <div class="small-box bg-danger" style="border-radius: 15px; box-shadow: 0 4px 6px rgba(0,0,0,0.1); overflow: hidden;">
             <div class="inner" style="padding: 20px; position: relative; z-index: 2;">
                 <h3 style="font-size: 2.5rem; font-weight: bold;">S/ {{ dash_dinero_pendiente }}.00</h3>
@@ -41,17 +41,17 @@
     </div>
 </div>
 
-<div class="row">
-    <div class="col-lg-6 col-12">
-        <div class="card mb-4" style="border-radius: 15px; box-shadow: 0 4px 6px rgba(0,0,0,0.1); border: none; height: 100%;">
+<div class="row mb-4">
+    <div class="col-lg-6 col-12 mb-4">
+        <div class="card" style="border-radius: 15px; box-shadow: 0 4px 6px rgba(0,0,0,0.1); border: none;">
             <div class="card-body" style="padding: 25px;">
                 <h5 class="card-title font-weight-bold mb-1" style="color: #4a5568;">
                     <i class="fas fa-bullseye text-danger"></i> Meta del Sorteo: {{ meta_boletos }} Boletos 
                 </h5>
                 {% if faltan_boletos > 0 %}
-                    <p class="card-text text-muted mb-3">Llevas <strong>{{ dash_validados }}</strong> validados. ¡Faltan <strong>{{ faltan_boletos }}</strong> boletos!</p>
+                    <p class="card-text text-muted mb-3 mt-2">Llevas <strong>{{ dash_validados }}</strong> validados. ¡Faltan <strong>{{ faltan_boletos }}</strong> boletos!</p>
                 {% else %}
-                    <p class="card-text text-success font-weight-bold mb-3">¡Has superado la meta de boletos vendidos! 🚀</p>
+                    <p class="card-text text-success font-weight-bold mb-3 mt-2">¡Has superado la meta de boletos vendidos! 🚀</p>
                 {% endif %}
                 <div class="progress" style="height: 25px; border-radius: 15px; background-color: #e2e8f0; box-shadow: inset 0 1px 2px rgba(0,0,0,.1);">
                     <div class="progress-bar bg-success progress-bar-striped progress-bar-animated" role="progressbar" 
@@ -64,13 +64,15 @@
         </div>
     </div>
 
-    <div class="col-lg-6 col-12">
-        <div class="card mb-4" style="border-radius: 15px; box-shadow: 0 4px 6px rgba(0,0,0,0.1); border: none; height: 100%;">
+    <div class="col-lg-6 col-12 mb-4">
+        <div class="card" style="border-radius: 15px; box-shadow: 0 4px 6px rgba(0,0,0,0.1); border: none;">
             <div class="card-body" style="padding: 25px;">
                 <h5 class="card-title font-weight-bold mb-3" style="color: #4a5568;">
                     <i class="fas fa-chart-line text-primary"></i> Tendencia de Registros (Últimos 7 días)
                 </h5>
-                <canvas id="tendenciaChart" style="max-height: 200px;"></canvas>
+                <div style="position: relative; height: 180px; width: 100%;">
+                    <canvas id="tendenciaChart"></canvas>
+                </div>
             </div>
         </div>
     </div>
@@ -79,31 +81,29 @@
 <script>
     document.addEventListener("DOMContentLoaded", function() {
         const ctx = document.getElementById('tendenciaChart').getContext('2d');
-        
-        // Recibimos los datos empaquetados desde Django
         const fechas = {{ chart_fechas|safe }};
         const registros = {{ chart_registros|safe }};
 
         new Chart(ctx, {
-            type: 'line', // Tipo de gráfico: Línea
+            type: 'line',
             data: {
                 labels: fechas,
                 datasets: [{
                     label: 'Nuevos Registros',
                     data: registros,
-                    borderColor: '#6f42c1', // Morado corporativo
+                    borderColor: '#6f42c1',
                     backgroundColor: 'rgba(111, 66, 193, 0.2)',
                     borderWidth: 3,
                     pointBackgroundColor: '#fff',
                     pointBorderColor: '#6f42c1',
                     pointRadius: 4,
                     fill: true,
-                    tension: 0.4 // Suaviza la curva
+                    tension: 0.4
                 }]
             },
             options: {
                 responsive: true,
-                maintainAspectRatio: false,
+                maintainAspectRatio: false, // Permite que el gráfico respete nuestra caja
                 plugins: {
                     legend: { display: false }
                 },
