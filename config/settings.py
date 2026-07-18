@@ -117,11 +117,9 @@ JAZZMIN_SETTINGS = {
     "topmenu_links": [
         {"name": "Panel Principal",  "url": "admin:index", "permissions": ["auth.view_user"]},
         {"name": "👁️ Ver Sitio Web", "url": "/", "new_window": True},
-    ],
-
-    # 🚪 MENÚ DESPLEGABLE DEL USUARIO (ARRIBA A LA DERECHA)
-    "usermenu_links": [
-        {"name": "Cerrar Sesión", "url": "admin:logout", "icon": "fas fa-sign-out-alt"},
+        
+        # 👇 NUEVO: Botón de Cerrar Sesión siempre a la vista 👇
+        {"name": "🚪 Cerrar Sesión", "url": "admin:logout"},
     ],
 }
 
