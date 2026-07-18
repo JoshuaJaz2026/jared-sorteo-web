@@ -5,15 +5,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Sorteo Fiestas Patrias | Electrodomésticos Jared</title>
     
-    <!-- INICIO: Metadatos Open Graph (Para WhatsApp, Facebook, Instagram) -->
     <meta property="og:title" content="¡Gran Sorteo de Fiestas Patrias | Electrodomésticos Jared!">
     <meta property="og:description" content="Celebra el orgullo de ser peruano. Registra tus datos, adquiere tu boleto a S/ 10.00 y participa por increíbles premios con Jared.">
-    <!-- Debes asegurarte de guardar tu imagen en: static/img/banner-social.jpg -->
     <meta property="og:image" content="https://jared-sorteo-web.onrender.com/static/img/banner-social.jpg">
     <meta property="og:url" content="https://jared-sorteo-web.onrender.com/">
     <meta property="og:type" content="website">
-    <!-- FIN: Metadatos Open Graph -->
-
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,400;0,700;0,900;1,800&family=Poppins:wght@400;500;600;700&display=swap');
@@ -41,7 +37,6 @@
 </head>
 <body class="bg-purple-50 font-body text-gray-800 antialiased overflow-x-hidden">
 
-    <!-- Modal Emergente de DNI Duplicado -->
     {% if error %}
     <div id="error-modal" class="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-sm animate-fade-in-up">
         <div class="bg-white rounded-3xl p-8 max-w-sm w-full mx-4 shadow-2xl text-center border-t-8 border-jared-red">
@@ -59,16 +54,13 @@
     </div>
     {% endif %}
 
-    <!-- Contenedor Maestro centrado -->
     <div class="relative min-h-screen w-full flex items-center justify-center p-4 sm:p-8">
         
-        <!-- Elementos decorativos contenidos -->
         <div class="fixed inset-0 pointer-events-none z-0 overflow-hidden">
             <div class="absolute top-[-10%] left-[-10%] w-[500px] h-[500px] bg-jared-purple opacity-20 rounded-full blur-[100px]"></div>
             <div class="absolute bottom-[-10%] right-[-10%] w-[400px] h-[400px] bg-jared-red opacity-10 rounded-full blur-[80px]"></div>
         </div>
 
-        <!-- Tarjeta Principal -->
         <div class="relative z-10 max-w-md w-full bg-white rounded-3xl shadow-2xl p-8 sm:p-10 animate-fade-in-up opacity-0 border-t-8 border-jared-purple">
             
             <div class="text-center mb-6">
@@ -83,7 +75,6 @@
                 </p>
             </div>
 
-            <!-- RELOJ DE CUENTA REGRESIVA -->
             <div class="mb-6 bg-gray-50 rounded-2xl p-4 border border-gray-200 shadow-inner text-center animate-fade-in-up opacity-0 delay-300">
                 <p class="text-[10px] font-bold text-gray-500 uppercase tracking-widest mb-3">El sorteo se realiza en:</p>
                 <div class="flex justify-center items-center gap-2 sm:gap-3" id="countdown-timer">
@@ -109,73 +100,91 @@
                 </div>
             </div>
 
-            <!-- Formulario Inteligente -->
-            <form method="POST" action="{% url 'landing_sorteo' %}" class="space-y-5 animate-fade-in-up opacity-0 delay-400">
-                {% csrf_token %}
+            {% if not sorteo_agotado %}
 
-                <div class="group">
-                    <label class="block text-xs font-bold text-gray-500 uppercase tracking-wider mb-2 group-focus-within:text-jared-purple transition-colors">Nombre Completo</label>
-                    <input type="text" name="nombre_completo" required 
-                           pattern="^[a-zA-ZáéíóúÁÉÍÓÚñÑ\s]+$" 
-                           title="Solo se permiten letras"
-                           oninput="this.value = this.value.replace(/[^a-zA-ZáéíóúÁÉÍÓÚñÑ\s]/g, '');"
-                           class="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl text-sm text-gray-800 focus:outline-none focus:ring-2 focus:ring-jared-purple/30 focus:border-jared-purple transition-all placeholder:text-gray-400" 
-                           placeholder="Ej. Juan Pérez">
-                </div>
+                <form method="POST" action="{% url 'landing_sorteo' %}" class="space-y-5 animate-fade-in-up opacity-0 delay-400">
+                    {% csrf_token %}
 
-                <div class="group">
-                    <label class="block text-xs font-bold text-gray-500 uppercase tracking-wider mb-2 group-focus-within:text-jared-purple transition-colors">DNI</label>
-                    <input type="text" name="dni" required 
-                           minlength="8" maxlength="8" pattern="[0-9]{8}" 
-                           title="El DNI debe tener exactamente 8 números"
-                           oninput="this.value = this.value.replace(/[^0-9]/g, '').slice(0, 8);"
-                           class="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl text-sm text-gray-800 focus:outline-none focus:ring-2 focus:ring-jared-purple/30 focus:border-jared-purple transition-all placeholder:text-gray-400" 
-                           placeholder="Tu número de documento (8 dígitos)">
-                </div>
-
-                <div class="group">
-                    <label class="block text-xs font-bold text-gray-500 uppercase tracking-wider mb-2 group-focus-within:text-jared-purple transition-colors">Celular</label>
-                    <input type="tel" name="celular" required 
-                           minlength="9" maxlength="9" pattern="[0-9]{9}" 
-                           title="El celular debe tener exactamente 9 números"
-                           oninput="this.value = this.value.replace(/[^0-9]/g, '').slice(0, 9);"
-                           class="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl text-sm text-gray-800 focus:outline-none focus:ring-2 focus:ring-jared-purple/30 focus:border-jared-purple transition-all placeholder:text-gray-400" 
-                           placeholder="Ej. 999888777">
-                </div>
-
-                <div class="group">
-                    <label class="block text-xs font-bold text-gray-500 uppercase tracking-wider mb-2 group-focus-within:text-jared-purple transition-colors">Correo (Opcional)</label>
-                    <input type="email" name="correo" 
-                           pattern="^[a-zA-Z0-9._%+-]+@gmail\.com$"
-                           title="Solo se permiten correos de @gmail.com"
-                           class="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl text-sm text-gray-800 focus:outline-none focus:ring-2 focus:ring-jared-purple/30 focus:border-jared-purple transition-all placeholder:text-gray-400" 
-                           placeholder="usuario@gmail.com">
-                </div>
-
-                <!-- NUEVO: Casilla de Términos y Condiciones -->
-                <div class="flex items-start gap-3 mt-2 pt-1">
-                    <div class="flex items-center h-5">
-                        <input id="terminos" name="terminos" type="checkbox" required 
-                               class="w-4 h-4 text-jared-purple bg-gray-50 border-gray-300 rounded focus:ring-jared-purple focus:ring-2 transition-all cursor-pointer">
+                    <div class="group">
+                        <label class="block text-xs font-bold text-gray-500 uppercase tracking-wider mb-2 group-focus-within:text-jared-purple transition-colors">Nombre Completo</label>
+                        <input type="text" name="nombre_completo" required 
+                               pattern="^[a-zA-ZáéíóúÁÉÍÓÚñÑ\s]+$" 
+                               title="Solo se permiten letras"
+                               oninput="this.value = this.value.replace(/[^a-zA-ZáéíóúÁÉÍÓÚñÑ\s]/g, '');"
+                               class="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl text-sm text-gray-800 focus:outline-none focus:ring-2 focus:ring-jared-purple/30 focus:border-jared-purple transition-all placeholder:text-gray-400" 
+                               placeholder="Ej. Juan Pérez">
                     </div>
-                    <div class="text-xs text-gray-500 leading-tight">
-                        <label for="terminos" class="font-medium cursor-pointer">
-                            He leído y acepto los <span class="text-jared-purple font-bold hover:underline">Términos y Condiciones</span> del sorteo, y confirmo ser mayor de 18 años.
-                        </label>
+
+                    <div class="group">
+                        <label class="block text-xs font-bold text-gray-500 uppercase tracking-wider mb-2 group-focus-within:text-jared-purple transition-colors">DNI</label>
+                        <input type="text" name="dni" required 
+                               minlength="8" maxlength="8" pattern="[0-9]{8}" 
+                               title="El DNI debe tener exactamente 8 números"
+                               oninput="this.value = this.value.replace(/[^0-9]/g, '').slice(0, 8);"
+                               class="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl text-sm text-gray-800 focus:outline-none focus:ring-2 focus:ring-jared-purple/30 focus:border-jared-purple transition-all placeholder:text-gray-400" 
+                               placeholder="Tu número de documento (8 dígitos)">
                     </div>
+
+                    <div class="group">
+                        <label class="block text-xs font-bold text-gray-500 uppercase tracking-wider mb-2 group-focus-within:text-jared-purple transition-colors">Celular</label>
+                        <input type="tel" name="celular" required 
+                               minlength="9" maxlength="9" pattern="[0-9]{9}" 
+                               title="El celular debe tener exactamente 9 números"
+                               oninput="this.value = this.value.replace(/[^0-9]/g, '').slice(0, 9);"
+                               class="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl text-sm text-gray-800 focus:outline-none focus:ring-2 focus:ring-jared-purple/30 focus:border-jared-purple transition-all placeholder:text-gray-400" 
+                               placeholder="Ej. 999888777">
+                    </div>
+
+                    <div class="group">
+                        <label class="block text-xs font-bold text-gray-500 uppercase tracking-wider mb-2 group-focus-within:text-jared-purple transition-colors">Correo (Opcional)</label>
+                        <input type="email" name="correo" 
+                               pattern="^[a-zA-Z0-9._%+-]+@gmail\.com$"
+                               title="Solo se permiten correos de @gmail.com"
+                               class="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl text-sm text-gray-800 focus:outline-none focus:ring-2 focus:ring-jared-purple/30 focus:border-jared-purple transition-all placeholder:text-gray-400" 
+                               placeholder="usuario@gmail.com">
+                    </div>
+
+                    <div class="flex items-start gap-3 mt-2 pt-1">
+                        <div class="flex items-center h-5">
+                            <input id="terminos" name="terminos" type="checkbox" required 
+                                   class="w-4 h-4 text-jared-purple bg-gray-50 border-gray-300 rounded focus:ring-jared-purple focus:ring-2 transition-all cursor-pointer">
+                        </div>
+                        <div class="text-xs text-gray-500 leading-tight">
+                            <label for="terminos" class="font-medium cursor-pointer">
+                                He leído y acepto los <span class="text-jared-purple font-bold hover:underline">Términos y Condiciones</span> del sorteo, y confirmo ser mayor de 18 años.
+                            </label>
+                        </div>
+                    </div>
+
+                    <button type="submit" class="w-full mt-6 py-4 px-4 rounded-full text-base font-impact font-bold text-white bg-jared-red hover:bg-red-700 hover:-translate-y-1 focus:outline-none focus:ring-4 focus:ring-red-500/30 transition-all duration-300 shadow-[0_10px_20px_rgba(230,0,0,0.3)] hover:shadow-[0_15px_25px_rgba(230,0,0,0.4)] active:scale-95 flex items-center justify-center gap-2">
+                        ¡QUIERO PARTICIPAR!
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 bg-white text-jared-red rounded-full p-0.5" viewBox="0 0 20 20" fill="currentColor">
+                          <path fill-rule="evenodd" d="M10.293 3.293a1 1 0 011.414 0l6 6a1 1 0 010 1.414l-6 6a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-4.293-4.293a1 1 0 010-1.414z" clip-rule="evenodd" />
+                        </svg>
+                    </button>
+                </form>
+
+            {% else %}
+
+                <div class="bg-red-50 border-l-4 border-red-500 p-6 rounded-lg text-center mt-6 animate-fade-in-up opacity-0 delay-400">
+                    <div class="flex justify-center mb-4">
+                        <svg class="h-12 w-12 text-red-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"/>
+                        </svg>
+                    </div>
+                    <h3 class="text-2xl font-bold text-red-800 mb-2">🛑 ¡SORTEO AGOTADO!</h3>
+                    <p class="text-red-600 font-medium">
+                        Gracias a todos por su increíble respuesta. Hemos alcanzado el límite máximo de boletos vendidos para esta edición.
+                    </p>
+                    <p class="text-sm text-gray-500 mt-4">
+                        Mantente atento a nuestras redes sociales para el próximo gran sorteo de Electrodomésticos Jared.
+                    </p>
                 </div>
 
-                <button type="submit" class="w-full mt-6 py-4 px-4 rounded-full text-base font-impact font-bold text-white bg-jared-red hover:bg-red-700 hover:-translate-y-1 focus:outline-none focus:ring-4 focus:ring-red-500/30 transition-all duration-300 shadow-[0_10px_20px_rgba(230,0,0,0.3)] hover:shadow-[0_15px_25px_rgba(230,0,0,0.4)] active:scale-95 flex items-center justify-center gap-2">
-                    ¡QUIERO PARTICIPAR!
-                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 bg-white text-jared-red rounded-full p-0.5" viewBox="0 0 20 20" fill="currentColor">
-                      <path fill-rule="evenodd" d="M10.293 3.293a1 1 0 011.414 0l6 6a1 1 0 010 1.414l-6 6a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-4.293-4.293a1 1 0 010-1.414z" clip-rule="evenodd" />
-                    </svg>
-                </button>
-            </form>
-        </div>
+            {% endif %}
+            </div>
     </div>
 
-    <!-- Script del Temporizador -->
     <script>
         // Fecha y hora del gran sorteo (28 de Julio 2026 a la Medianoche)
         const countDownDate = new Date("Jul 28, 2026 00:00:00").getTime();

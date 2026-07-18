@@ -156,12 +156,16 @@ JAZZMIN_SETTINGS = {
     "show_ui_builder": False,
 
     # 🔗 NUEVO: BOTÓN DE ACCESO DIRECTO AL SITIO WEB PÚBLICO
+    # 🔗 BOTONES DE LA BARRA SUPERIOR
     "topmenu_links": [
         # Este botón te lleva al Dashboard principal del panel
         {"name": "Panel Principal",  "url": "admin:index", "permissions": ["auth.view_user"]},
         
-        # Este es nuestro nuevo botón mágico que abre tu web en otra pestaña
+        # Este es nuestro botón mágico que abre tu web en otra pestaña
         {"name": "👁️ Ver Sitio Web", "url": "/", "new_window": True},
+
+        # NUEVO: Botón de escape rápido (Cerrar Sesión)
+        {"name": "🚪 Cerrar Sesión", "url": "admin:logout"},
     ],
 }
 

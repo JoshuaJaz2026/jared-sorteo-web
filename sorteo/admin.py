@@ -10,7 +10,7 @@ from .models import Participante
 @admin.register(Participante)
 class ParticipanteAdmin(admin.ModelAdmin):
     # Columnas que ves en la tabla
-    list_display = ('nombre_completo', 'dni', 'celular', 'contactar_whatsapp', 'participando', 'fecha_registro')
+    list_display = ('nombre_completo', 'dni', 'celular', 'contactar_whatsapp', 'generar_boleto', 'participando', 'fecha_registro')
     
     # Interruptor editable desde la tabla
     list_editable = ('participando',)
@@ -83,7 +83,7 @@ class ParticipanteAdmin(admin.ModelAdmin):
         candidatos = Participante.objects.filter(participando=True)
         if not candidatos.exists():
             self.message_user(request, "⚠️ Error: No hay participantes validados.", level=messages.ERROR)
-            return
+            returnlist_display
         ganador = random.choice(candidatos)
         mensaje_triunfal = f"🎉 ¡TENEMOS GANADOR! 🎉 {ganador.nombre_completo} (DNI: {ganador.dni}) - Cel: {ganador.celular}"
         self.message_user(request, mensaje_triunfal, level=messages.SUCCESS)
@@ -102,3 +102,17 @@ class ParticipanteAdmin(admin.ModelAdmin):
     def eliminar_participantes(self, request, queryset):
         cantidad, _ = queryset.delete()
         self.message_user(request, f"🗑️ ¡Listo! Se han eliminado {cantidad} participantes.", level=messages.SUCCESS)
+
+# ==========================================
+    # 🎟️ NUEVO: GENERADOR DE BOLETO VIRTUAL
+    # ==========================================
+    @admin.display(description='Ticket')
+    def generar_boleto(self, obj):
+        # Solo generamos el botón si el cliente ya está validado
+        if obj.participando:
+            enlace = f"/boleto/{obj.id}/"
+            return format_html(
+                '<a href="{}" target="_blank" style="background-color: #ffc107; color: #000; padding: 5px 12px; border-radius: 12px; text-decoration: none; font-weight: bold; font-size: 11px; display: inline-block; box-shadow: 0 2px 4px rgba(0,0,0,0.2);">🎟️ Ver Boleto</a>',
+                enlace
+            )
+        return format_html('<span style="color: gray; font-size: 11px;">Falta Pago</span>')

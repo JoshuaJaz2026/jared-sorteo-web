@@ -1,9 +1,9 @@
 {% extends "admin/index.html" %}
 
 {% block content %}
-<!-- 💰 NUESTRO DASHBOARD FINANCIERO PREMIUM -->
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
 <div class="row mb-4 mt-3">
-    <!-- 1. Tarjeta de Dinero Recaudado (Verde) -->
     <div class="col-lg-4 col-12">
         <div class="small-box bg-success" style="border-radius: 15px; box-shadow: 0 4px 6px rgba(0,0,0,0.1); overflow: hidden;">
             <div class="inner" style="padding: 20px; position: relative; z-index: 2;">
@@ -16,7 +16,6 @@
         </div>
     </div>
 
-    <!-- 2. Tarjeta de Validados (Azul) -->
     <div class="col-lg-4 col-12">
         <div class="small-box bg-info" style="border-radius: 15px; box-shadow: 0 4px 6px rgba(0,0,0,0.1); overflow: hidden;">
             <div class="inner" style="padding: 20px; position: relative; z-index: 2;">
@@ -29,7 +28,6 @@
         </div>
     </div>
 
-    <!-- 3. Tarjeta de Pendientes (Roja) -->
     <div class="col-lg-4 col-12">
         <div class="small-box bg-danger" style="border-radius: 15px; box-shadow: 0 4px 6px rgba(0,0,0,0.1); overflow: hidden;">
             <div class="inner" style="padding: 20px; position: relative; z-index: 2;">
@@ -43,29 +41,79 @@
     </div>
 </div>
 
-<!-- 🎯 NUEVO: BARRA DE PROGRESO DE LA META -->
-<div class="card mb-4" style="border-radius: 15px; box-shadow: 0 4px 6px rgba(0,0,0,0.1); border: none;">
-    <div class="card-body" style="padding: 25px;">
-        <h5 class="card-title font-weight-bold mb-1" style="color: #4a5568;">
-            <i class="fas fa-bullseye text-danger"></i> Meta del Sorteo: {{ meta_boletos }} Boletos 
-        </h5>
-        
-        {% if faltan_boletos > 0 %}
-            <p class="card-text text-muted mb-3">Llevas <strong>{{ dash_validados }}</strong> validados. ¡Te faltan <strong>{{ faltan_boletos }}</strong> boletos para llegar al objetivo!</p>
-        {% else %}
-            <p class="card-text text-success font-weight-bold mb-3">¡Felicidades! Has superado la meta de boletos vendidos para este sorteo. 🚀</p>
-        {% endif %}
+<div class="row">
+    <div class="col-lg-6 col-12">
+        <div class="card mb-4" style="border-radius: 15px; box-shadow: 0 4px 6px rgba(0,0,0,0.1); border: none; height: 100%;">
+            <div class="card-body" style="padding: 25px;">
+                <h5 class="card-title font-weight-bold mb-1" style="color: #4a5568;">
+                    <i class="fas fa-bullseye text-danger"></i> Meta del Sorteo: {{ meta_boletos }} Boletos 
+                </h5>
+                {% if faltan_boletos > 0 %}
+                    <p class="card-text text-muted mb-3">Llevas <strong>{{ dash_validados }}</strong> validados. ¡Faltan <strong>{{ faltan_boletos }}</strong> boletos!</p>
+                {% else %}
+                    <p class="card-text text-success font-weight-bold mb-3">¡Has superado la meta de boletos vendidos! 🚀</p>
+                {% endif %}
+                <div class="progress" style="height: 25px; border-radius: 15px; background-color: #e2e8f0; box-shadow: inset 0 1px 2px rgba(0,0,0,.1);">
+                    <div class="progress-bar bg-success progress-bar-striped progress-bar-animated" role="progressbar" 
+                         style="width: {{ porcentaje_visual }}%; font-weight: bold; font-size: 14px;" 
+                         aria-valuenow="{{ porcentaje_visual }}" aria-valuemin="0" aria-valuemax="100">
+                        {{ porcentaje_meta }}%
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 
-        <div class="progress" style="height: 25px; border-radius: 15px; background-color: #e2e8f0; box-shadow: inset 0 1px 2px rgba(0,0,0,.1);">
-            <div class="progress-bar bg-success progress-bar-striped progress-bar-animated" role="progressbar" 
-                 style="width: {{ porcentaje_visual }}%; font-weight: bold; font-size: 14px;" 
-                 aria-valuenow="{{ porcentaje_visual }}" aria-valuemin="0" aria-valuemax="100">
-                {{ porcentaje_meta }}%
+    <div class="col-lg-6 col-12">
+        <div class="card mb-4" style="border-radius: 15px; box-shadow: 0 4px 6px rgba(0,0,0,0.1); border: none; height: 100%;">
+            <div class="card-body" style="padding: 25px;">
+                <h5 class="card-title font-weight-bold mb-3" style="color: #4a5568;">
+                    <i class="fas fa-chart-line text-primary"></i> Tendencia de Registros (Últimos 7 días)
+                </h5>
+                <canvas id="tendenciaChart" style="max-height: 200px;"></canvas>
             </div>
         </div>
     </div>
 </div>
 
-<!-- Mostramos el resto del panel normal abajo -->
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        const ctx = document.getElementById('tendenciaChart').getContext('2d');
+        
+        // Recibimos los datos empaquetados desde Django
+        const fechas = {{ chart_fechas|safe }};
+        const registros = {{ chart_registros|safe }};
+
+        new Chart(ctx, {
+            type: 'line', // Tipo de gráfico: Línea
+            data: {
+                labels: fechas,
+                datasets: [{
+                    label: 'Nuevos Registros',
+                    data: registros,
+                    borderColor: '#6f42c1', // Morado corporativo
+                    backgroundColor: 'rgba(111, 66, 193, 0.2)',
+                    borderWidth: 3,
+                    pointBackgroundColor: '#fff',
+                    pointBorderColor: '#6f42c1',
+                    pointRadius: 4,
+                    fill: true,
+                    tension: 0.4 // Suaviza la curva
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: { display: false }
+                },
+                scales: {
+                    y: { beginAtZero: true, ticks: { stepSize: 1 } }
+                }
+            }
+        });
+    });
+</script>
+
 {{ block.super }}
 {% endblock %}
