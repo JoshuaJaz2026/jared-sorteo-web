@@ -117,10 +117,16 @@ JAZZMIN_SETTINGS = {
     "topmenu_links": [
         {"name": "Panel Principal",  "url": "admin:index", "permissions": ["auth.view_user"]},
         {"name": "👁️ Ver Sitio Web", "url": "/", "new_window": True},
-        
-        # 👇 NUEVO: Botón de Cerrar Sesión siempre a la vista 👇
-        {"name": "🚪 Cerrar Sesión", "url": "admin:logout"},
     ],
+
+    # 👇 NUEVO: INYECCIÓN DE BOTONES EN LA BARRA LATERAL IZQUIERDA 👇
+    "custom_links": {
+        "sorteo": [{
+            "name": "🚪 Cerrar Sesión", 
+            "url": "admin:logout", 
+            "icon": "fas fa-sign-out-alt",
+        }]
+    },
 }
 
 JAZZMIN_UI_TWEAKS = {
